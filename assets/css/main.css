@@ -36,7 +36,10 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 body {
 	line-height: 1;
 	-webkit-text-size-adjust: none;
+	-webkit-tap-highlight-color: transparent;
+	font-family: 'Times New Roman', sans-serif;
 }
+
 ol, ul {
 	list-style: none;
 }
@@ -139,11 +142,6 @@ body::-webkit-scrollbar-thumb {
 	transform: translateX(-20px) rotate(-90deg);
 }
 
-.menu-toggle:focus {
-    outline: none;
-	border: 10px solid red;
-}
-
 .logo {
     background-color: var(--bg-color);
     padding: 10px 20px;
@@ -152,7 +150,6 @@ body::-webkit-scrollbar-thumb {
 }
 
 .logo a {
-    font-family: 'YourFont', sans-serif; /* Choose a suitable font */
     font-size: 28px;
     font-weight: bold;
     text-decoration: none;
@@ -321,7 +318,7 @@ body::-webkit-scrollbar-thumb {
 	}
 	.banner-content .subtitle {
 		font-size: 1.5em;
-	}	
+	}
 }
 
 .banner-content .subtitle .site-name {

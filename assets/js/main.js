@@ -44,11 +44,16 @@ contactButtonCss.addEventListener('click', function(event) {
 	});
 });
 
-
 window.addEventListener('scroll', () => {
     if (window.scrollY > bannerCss.offsetHeight) {
 		globalHeader.classList.remove('scrolled');
 	} else {
 		globalHeader.classList.add('scrolled');
     }
+});
+
+const title = document.getElementById("title");
+title.textContent = innerWidth
+window.addEventListener('resize', () => {
+    title.textContent = innerWidth
 });

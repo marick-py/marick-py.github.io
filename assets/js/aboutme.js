@@ -164,6 +164,5 @@ document.addEventListener('click', event => {
 });
 
 window.addEventListener('resize', () => {
-    // Call a function to update nodes' positions here
     updateGraph();
 });
