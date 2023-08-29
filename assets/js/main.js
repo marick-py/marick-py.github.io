@@ -1,6 +1,7 @@
 const menuToggles = document.getElementsByClassName('menu-toggle');
 const closeButton = document.getElementById("close-button");
 const globalHeader = document.getElementById('global-header');
+const menuOverlay = document.getElementsByClassName('overlay');
 
 const contentSectionCss = document.querySelector('#content');
 
@@ -8,18 +9,18 @@ const homeButtonCss = document.querySelector('.home-button');
 const aboutButtonCss = document.querySelector('.about-button');
 const contactButtonCss = document.querySelector('.contact-button');
 
-const overlayCss = document.querySelector('.overlay');
+const menuOverlayCss = document.querySelector('.overlay');
 const lateralMenuCss = document.querySelector('#menu');
 const closeButtonCss = document.querySelector("#menu .close-button");
 const bannerCss = document.querySelector('.banner');
 
 function closeMenu() {
-	overlayCss.classList.toggle('open');
+	menuOverlayCss.classList.toggle('open');
 	lateralMenuCss.classList.toggle('open');
 	closeButtonCss.classList.toggle("open");
 }
 
-[...menuToggles, closeButton].forEach(menuToggle => {
+[...menuToggles, closeButton, ...menuOverlay].forEach(menuToggle => {
 	menuToggle.addEventListener('click', () => {
         closeMenu()
 	});
@@ -44,16 +45,30 @@ contactButtonCss.addEventListener('click', function(event) {
 	});
 });
 
+let prevScrollY = window.scrollY;
 window.addEventListener('scroll', () => {
-    if (window.scrollY > bannerCss.offsetHeight) {
-		globalHeader.classList.remove('scrolled');
-	} else {
-		globalHeader.classList.add('scrolled');
+	const currentScrollY = window.scrollY;
+    if (currentScrollY > bannerCss.offsetHeight) {
+		if (currentScrollY > prevScrollY) {
+			globalHeader.classList.add('scrolled');
+		} else if (currentScrollY < prevScrollY) {
+			globalHeader.classList.remove('scrolled');
+		}
+    } else {
+        globalHeader.classList.add('scrolled');
+    }
+
+    prevScrollY = currentScrollY;
+});
+
+window.addEventListener('click', event => {
+    if (!event.target.closest('button')) {
+		globalHeader.classList.toggle('scrolled');
     }
 });
 
 const title = document.getElementById("title");
-title.textContent = innerWidth
+// title.textContent = innerWidth
 window.addEventListener('resize', () => {
     title.textContent = innerWidth
 });
