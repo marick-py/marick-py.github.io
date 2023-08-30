@@ -3,8 +3,8 @@
     position: fixed;
 	border-right: 5px solid var(--normal-menu-separator-color);
     top: 0;
-    left: -360px;
-    width: 250px;
+    left: calc(0px - var(--menu-width));
+    width: var(--menu-width);
     height: 100%;
     background-color: var(--bg-opaque-color);
 	padding: 0px;
@@ -22,7 +22,6 @@
 
 #menu li {
 	margin: 40px;
-	font-size: x-large;
 	position: relative;
 	text-align: center;
 }
@@ -47,7 +46,7 @@
 
 #menu-buttons a:hover {
     color: var(--hover-menu-buttons-color);
-	font-size: 42px;
+	font-size: 2rem;
 }
 
 #menu .close-button {

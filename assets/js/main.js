@@ -26,15 +26,6 @@ function closeMenu() {
 	});
 });
 
-homeButtonCss.addEventListener('click', function(event) {
-	event.preventDefault();
-	closeMenu()
-	window.scrollTo({
-	  top: 0,
-	  behavior: "smooth"
-	});
-});
-
 contactButtonCss.addEventListener('click', function(event) {
 	event.preventDefault();
 	closeMenu()
