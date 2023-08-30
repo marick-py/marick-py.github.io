@@ -62,13 +62,7 @@ window.addEventListener('scroll', () => {
 });
 
 window.addEventListener('click', event => {
-    if (!event.target.closest('button')) {
+    if ((!event.target.closest('button')) && (prevScrollY > bannerCss.offsetHeight)) {
 		globalHeader.classList.toggle('scrolled');
     }
-});
-
-const title = document.getElementById("title");
-// title.textContent = innerWidth
-window.addEventListener('resize', () => {
-    title.textContent = innerWidth
 });
