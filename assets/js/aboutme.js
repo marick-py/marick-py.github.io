@@ -1,5 +1,6 @@
 const nodesContainer = document.getElementById('Nodes');
 const linesContainer = document.getElementById('Lines');
+const header = document.getElementById('local-header');
 
 let jsonData;
 
@@ -7,6 +8,7 @@ let mouseX;
 let mouseY;
 
 const y_space = 150;
+const top_margin = header.getBoundingClientRect().bottom;
 
 fetch('assets/json/randomAboutMe.json')
 .then(response => response.json())
@@ -36,7 +38,7 @@ function updateGraph() {
             node.className = 'node';
         }
         node.style.left = `${x}px`;
-        node.style.top = `${y}px`;
+        node.style.top = `${y + top_margin}px`;
         node.style.maxWidth = `${max_w}px`;
         node.path_to_this_node = path_to_this_node;
         node.textContent = path_to_this_node[path_to_this_node.length-1];
@@ -58,13 +60,13 @@ function updateGraph() {
             line.style.width = `${Math.abs(p2.y - p1.y)}px`;
             line.style.height = '2px';
             line.style.left = `${p1.x}px`;
-            line.style.top = `${p1.y}px`;
+            line.style.top = `${p1.y + top_margin}px`;
             line.style.transform = `rotate(${Math.PI/2}rad)`;
         
         } else {
             line.style.height = '2px';
             line.style.left = `${p1.x}px`;
-            line.style.top = `${p1.y}px`;
+            line.style.top = `${p1.y + top_margin}px`;
             
             const absDelta = Math.abs(delta);
             if (minDelta < y_space) {

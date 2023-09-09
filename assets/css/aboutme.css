@@ -90,7 +90,7 @@ body::-webkit-scrollbar-thumb {
     transform: translate(-50%, -50%);
     color: white;
     position: absolute;
-    font-size: 24px;
+    font-size: 12px;
     cursor: pointer;
     text-align: center;
     margin: 10px;
@@ -104,7 +104,7 @@ body::-webkit-scrollbar-thumb {
 .selected,
 .last-row,
 .description {
-    font-size: 24px;
+    font-size: 12px; 
     background-color: var(--bg-color-light-shade-1);
     border: 2px solid var(--primary-color);
 }
@@ -115,7 +115,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 .first-element {
-    font-size: 48px;
+    font-size: 32px;
     color: var(--secondary-color);
 }
 
@@ -130,7 +130,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 .description {
-    font-size: 32px;
+    font-size: 24px;
     width: 80%;
     transform: translate(-50%, -10px);
     cursor: default;
