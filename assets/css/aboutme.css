@@ -130,7 +130,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 .description {
-    font-size: 24px;
+    font-size: 2px;
     width: 80%;
     transform: translate(-50%, -10px);
     cursor: default;
