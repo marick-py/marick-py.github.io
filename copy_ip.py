@@ -1,8 +1,9 @@
 import sys
+from typing import NoReturn
 import pyperclip
 import os
 
-def print_help():
+def print_help() -> NoReturn:
     print("Usage: python script.py [-port PORT] [-index INDEX] [-h]")
     print("-port PORT: Specify the port number (default is 5500).")
     print("-index INDEX: Specify the index page (default is index.html).")

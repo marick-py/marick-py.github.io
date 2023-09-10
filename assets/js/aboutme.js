@@ -7,7 +7,6 @@ let jsonData;
 let mouseX;
 let mouseY;
 
-const y_space = 150;
 const top_margin = header.getBoundingClientRect().bottom;
 
 fetch('assets/json/randomAboutMe.json')
@@ -54,6 +53,8 @@ function updateGraph() {
         const delta = p2.x - p1.x;
         line.style.transformOrigin = `0px 0px`;
 
+        const y_delta = p2.y - p1.y
+
         if (delta == 0) {
             line.className = 'vertical-line';
 
@@ -69,17 +70,17 @@ function updateGraph() {
             line.style.top = `${p1.y + top_margin}px`;
             
             const absDelta = Math.abs(delta);
-            if (minDelta < y_space) {
+            if (minDelta < y_delta) {
                 line.className = 'advanced-short-line';
                 line.style.setProperty('--after-before-size', `${minDelta/2}px`);
-                line.style.setProperty('--after-before-size-2', `${y_space/2}px`);
+                line.style.setProperty('--after-before-size-2', `${y_delta/2}px`);
                 line.style.width = `${absDelta - minDelta}px`;
-                line.style.transform = `scaleX(${(delta > 0) ? 1 : -1}) translate(${minDelta/2}px, ${y_space/2}px)`;
+                line.style.transform = `scaleX(${(delta > 0) ? 1 : -1}) translate(${minDelta/2}px, ${y_delta/2}px)`;
             } else {
                 line.className = 'advanced-line';
-                line.style.width = `${absDelta - y_space}px`;
-                line.style.setProperty('--after-before-size', `${y_space/2}px`);
-                line.style.transform = `scaleX(${(delta > 0) ? 1 : -1}) translate(${y_space/2}px, ${y_space/2}px)`;
+                line.style.width = `${absDelta - y_delta}px`;
+                line.style.setProperty('--after-before-size', `${y_delta/2}px`);
+                line.style.transform = `scaleX(${(delta > 0) ? 1 : -1}) translate(${y_delta/2}px, ${y_delta/2}px)`;
             }
         }
         return line;
@@ -99,12 +100,14 @@ function updateGraph() {
             } else {
                 next_nodes = next_nodes[path[i-1]];
             }
+            y += 50;
             if (typeof next_nodes === 'object') {
                 x_space = window.innerWidth / (Object.keys(next_nodes).length + 1);
                 Object.entries(next_nodes).forEach(([key, value], index) => {
                     let nx = x_space * (index + 1);
-                    let ny = y + y_space * i;
-                    const node = createNode(path.slice(0,i).concat([key]), nx, ny, x_space, path.includes(key));
+                    const node = createNode(path.slice(0,i).concat([key]), nx, y, x_space, path.includes(key));
+                    nodesContainer.appendChild(node)
+                    y = node.getBoundingClientRect().bottom + (window.pageYOffset || document.documentElement.scrollTop) - node.getBoundingClientRect().height;
                     if (path.includes(key)) {
                         if (i != 0) {
                             lineElements.push(i === 1 ? [first_element, node] : [lineElements[lineElements.length - 1][1], node]);
@@ -120,7 +123,9 @@ function updateGraph() {
                     nodeElements.push(node);
                 });
             } else {
-                const node = createNode([next_nodes], window.innerWidth / 2, y + y_space * i, window.innerWidth, true);
+                const node = createNode([next_nodes], window.innerWidth / 2, y, window.innerWidth, true);
+                nodesContainer.appendChild(node)
+                y = node.getBoundingClientRect().bottom + (window.pageYOffset || document.documentElement.scrollTop) - node.getBoundingClientRect().height;
                 last_row_of_lines.push(i === 1 ? [first_element, node] : [lineElements[lineElements.length - 1][1], node]);
                 nodeElements.push(node);
                 node.className = "node description";
@@ -138,7 +143,7 @@ function updateGraph() {
     const get_deltas = ps => Math.abs(ps[0].x - ps[1].x);
     const minValue = Math.min(...lineElements.map(get_deltas).filter(d => d !== 0));
 
-    nodeElements.forEach(node => nodesContainer.appendChild(node));
+    // nodeElements.forEach(node => nodesContainer.appendChild(node));
     lineElements.forEach(line => linesContainer.appendChild(createLine(...line, minValue)));
 
 
