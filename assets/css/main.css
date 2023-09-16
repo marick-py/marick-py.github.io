@@ -145,6 +145,13 @@ body::-webkit-scrollbar-thumb {
 	font-family: FontAwesome;
 }
 
+/* Chat */
+
+#chat-system {
+	width: 90%;
+	margin: auto;
+}
+
 @media (min-width:320px) {
 	/* smartphones, iPhone, portrait 480x320 phones */ 
 }
