@@ -35,7 +35,7 @@ function loadProgram(programPath, node_container) {
         return response.text();
     })
     .then(data => {
-        node_container.innerHtml = data;
+        node_container.innerHTML = data;
     })
     .catch(error => {
         console.error('There was a problem with the fetch operation:', error);
@@ -220,6 +220,9 @@ document.addEventListener('click', event => {
     if (event.target.classList.contains('node') && !event.target.classList.contains("description")) {
         currentPath = event.target.path_to_this_node;
         updateGraph();
+    } else if (event.target.classList.contains("play-program") {
+        document.getElementById('description');
+####Todo
     }
 });
 
