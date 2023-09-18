@@ -26,6 +26,22 @@ const html_scripts = ["springs.html"];
 
 let html_is_loaded = false
 
+function loadProgram(programPath, node_container) {
+    fetch(programPath)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.text();
+    })
+    .then(data => {
+        node_container.innerHtml = data;
+    })
+    .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+    });
+}
+
 function loadDescription(externalHTMLUrl) {
     fetch(descriptions_path + externalHTMLUrl)
     .then(response => {
