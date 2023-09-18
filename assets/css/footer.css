@@ -41,6 +41,10 @@ footer {
 	color: var(--primary-color);
 }
 
+.footer-content p {
+    margin-bottom: 20px;
+}
+
 .social-links {
     display: flex;
     justify-content: space-evenly;

@@ -128,14 +128,6 @@ body::-webkit-scrollbar-thumb {
     border: 2px solid var(--secondary-color);
 }
 
-.description {
-    font-size: 24px;
-    width: 80%;
-    transform: translate(-50%, -10px);
-    cursor: default;
-    color: var(--secondary-color);
-}
-
 /* Lines */
 
 .vertical-line,
@@ -200,4 +192,66 @@ body::-webkit-scrollbar-thumb {
 .content-spacer {
     background-color: var(--bg-color);
     flex-grow: 1;
+}
+
+
+#description {
+    transform: translate(-50%, -10px);
+    cursor: default;
+    width: 80%;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--secondary-color);
+}
+
+#sub-description h1{
+    font-size: 24px;
+    line-height: 28px;
+    margin: 25px 0px;
+    font-weight: bold;
+    font-style: italic;
+    color: var(--primary-color)
+}
+
+#sub-description h2{
+    font-size: 18px;
+    line-height: 28px;
+    margin-bottom: 15px;
+    font-weight: bold;
+    font-style: italic;
+}
+
+#sub-description p {
+    margin-bottom: 50px;
+    color: var(--secondary-color-dark-shade-1)
+}
+
+#sub-description img {
+    max-width: 100%;
+    height: auto;
+}
+
+#sub-description pre {
+    font-size: 10px;
+    text-align: left;
+    background-color: var(--bg-color);
+    padding: 0 10px;
+    border-radius: 5px;
+    /* font-family: "Courier New", Courier, monospace; */
+    overflow-x: auto; 
+}
+
+#sub-description code {
+    display: block;
+}
+
+#sub-description .play-button {
+    margin-top: 100px;
+    color: var(--primary-color);
+    border-radius: 10px;
+    background-color: var(--bg-color);
+    text-decoration: none;
+    font-size: 60px;
+    line-height: 100px;
+    padding: 10px;
 }

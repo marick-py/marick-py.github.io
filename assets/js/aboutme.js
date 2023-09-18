@@ -20,6 +20,7 @@ fetch('assets/json/randomAboutMe.json')
 let currentPath = ['About Me', 'Life and Coding', 'Coding Adventures', 'Web Wizardry', 'Digital Playground', 'Godot Exploration'];
 
 function updateGraph() {
+    console.log("NOPE");
     let nodeElements = [];
     let lineElements = [];
 
@@ -101,6 +102,7 @@ function updateGraph() {
                 next_nodes = next_nodes[path[i-1]];
             }
             y += 50;
+            print(next_nodes)
             if (typeof next_nodes === 'object') {
                 x_space = window.innerWidth / (Object.keys(next_nodes).length + 1);
                 Object.entries(next_nodes).forEach(([key, value], index) => {
@@ -126,10 +128,11 @@ function updateGraph() {
                 const node = createNode([next_nodes], window.innerWidth / 2, y, window.innerWidth, true);
                 nodesContainer.appendChild(node)
                 y = node.getBoundingClientRect().bottom + (window.pageYOffset || document.documentElement.scrollTop) - node.getBoundingClientRect().height;
-                last_row_of_lines.push(i === 1 ? [first_element, node] : [lineElements[lineElements.length - 1][1], node]);
                 nodeElements.push(node);
                 node.className = "node description";
                 node.id = "description";
+                console.log(lineElements)
+                last_row_of_lines.push(i === 1 ? [first_element, node] : [lineElements[lineElements.length - 1][1], node]);
             }
         }
         lineElements = lineElements.concat(last_row_of_lines);

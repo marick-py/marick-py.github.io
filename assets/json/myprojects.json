@@ -1,5 +1,7 @@
 {
   "My Projects": {
-    "Physics Simulations": "springs.html"
+    "Physics Simulations": {
+      "Springs Simulation": "springs.html"
+    }
   }
 }

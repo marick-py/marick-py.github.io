@@ -13,17 +13,21 @@ fetch('assets/json/myprojects.json')
 .then(response => response.json())
 .then(data => {
     jsonData = data;
-    updateGraph();
+    main()
 })
 .catch(error => {console.error('Error loading JSON:', error);});
 
-let currentPath = ['My Projects'];
+let currentPath = ['My Projects', 'Physics Simulations', 'Springs Simulation'];
 
 const descriptions_path = "assets\\example_programs\\descriptions\\"
 
+const html_scripts = ["springs.html"];
+
+
+let html_is_loaded = false
+
 function loadDescription(externalHTMLUrl) {
-    const description = document.getElementById('description');
-    fetch(externalHTMLUrl)
+    fetch(descriptions_path + externalHTMLUrl)
     .then(response => {
         if (!response.ok) {
             throw new Error('Network response was not ok');
@@ -31,11 +35,32 @@ function loadDescription(externalHTMLUrl) {
         return response.text();
     })
     .then(data => {
-        description.innerHTML = data;
+        html_scripts.splice(html_scripts.indexOf(externalHTMLUrl))
+        loaded_html_sprits[externalHTMLUrl] = data
+        main()
     })
     .catch(error => {
         console.error('There was a problem with the fetch operation:', error);
     });
+}
+
+let loaded_html_sprits = {}
+
+for (script_index in html_scripts) {
+    const script_name = html_scripts[script_index];
+    loadDescription(script_name)
+}
+
+function set_footer_height(nodes) {
+    const y_scroll = (window.scrollY || window.pageYOffset);
+    const get_y_max = node => node.getBoundingClientRect().bottom + y_scroll;
+
+    const maxHeight = Math.max(...nodes.map(get_y_max));
+    const separator = document.getElementById("content-spacer");
+
+    let height = maxHeight - separator.getBoundingClientRect().top - y_scroll;
+
+    separator.style.height = `${Math.max(height, 0)}px`;
 }
 
 function updateGraph() {
@@ -145,11 +170,11 @@ function updateGraph() {
                 const node = createNode([""], window.innerWidth / 2, y, window.innerWidth, true);
                 node.className = "node description";
                 nodesContainer.appendChild(node)
+                nodeElements.push(node);
                 node.id = "description";
-                loadDescription(descriptions_path + next_nodes)
+                node.innerHTML = loaded_html_sprits[next_nodes];
                 y = node.getBoundingClientRect().bottom + (window.pageYOffset || document.documentElement.scrollTop) - node.getBoundingClientRect().height;
                 last_row_of_lines.push(i === 1 ? [first_element, node] : [lineElements[lineElements.length - 1][1], node]);
-                nodeElements.push(node);
             }
         }
         lineElements = lineElements.concat(last_row_of_lines);
@@ -167,15 +192,7 @@ function updateGraph() {
     lineElements.forEach(line => linesContainer.appendChild(createLine(...line, minValue)));
 
 
-    const y_scroll = (window.scrollY || window.pageYOffset);
-    const get_y_max = node => node.getBoundingClientRect().bottom + y_scroll;
-
-    const maxHeight = Math.max(...nodeElements.map(get_y_max));
-    const separator = document.getElementById("content-spacer");
-
-    let height = maxHeight - separator.getBoundingClientRect().top - y_scroll;
-
-    separator.style.height = `${Math.max(height, 0)}px`;
+    set_footer_height(nodeElements)
 }
 
 document.addEventListener('mousemove', event => {
@@ -193,3 +210,7 @@ document.addEventListener('click', event => {
 window.addEventListener('resize', () => {
     updateGraph();
 });
+
+function main() {
+    updateGraph();
+}
