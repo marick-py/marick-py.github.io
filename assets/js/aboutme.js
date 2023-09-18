@@ -102,7 +102,6 @@ function updateGraph() {
                 next_nodes = next_nodes[path[i-1]];
             }
             y += 50;
-            print(next_nodes)
             if (typeof next_nodes === 'object') {
                 x_space = window.innerWidth / (Object.keys(next_nodes).length + 1);
                 Object.entries(next_nodes).forEach(([key, value], index) => {
