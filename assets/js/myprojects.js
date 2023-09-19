@@ -26,21 +26,6 @@ const html_scripts = ["springs.html"];
 
 let html_is_loaded = false
 
-function loadProgram(programPath, node_container) {
-    fetch(programPath)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.text();
-    })
-    .then(data => {
-        node_container.innerHTML = data;
-    })
-    .catch(error => {
-        console.error('There was a problem with the fetch operation:', error);
-    });
-}
 
 function loadDescription(externalHTMLUrl) {
     fetch(descriptions_path + externalHTMLUrl)
@@ -189,6 +174,7 @@ function updateGraph() {
                 nodeElements.push(node);
                 node.id = "description";
                 node.innerHTML = loaded_html_sprits[next_nodes];
+                currentProgram = next_nodes;
                 y = node.getBoundingClientRect().bottom + (window.pageYOffset || document.documentElement.scrollTop) - node.getBoundingClientRect().height;
                 last_row_of_lines.push(i === 1 ? [first_element, node] : [lineElements[lineElements.length - 1][1], node]);
             }
@@ -203,8 +189,6 @@ function updateGraph() {
 
     const get_deltas = ps => Math.abs(ps[0].x - ps[1].x);
     const minValue = Math.min(...lineElements.map(get_deltas).filter(d => d !== 0));
-
-    // nodeElements.forEach(node => nodesContainer.appendChild(node));
     lineElements.forEach(line => linesContainer.appendChild(createLine(...line, minValue)));
 
 
@@ -220,9 +204,7 @@ document.addEventListener('click', event => {
     if (event.target.classList.contains('node') && !event.target.classList.contains("description")) {
         currentPath = event.target.path_to_this_node;
         updateGraph();
-    } else if (event.target.classList.contains("play-program") {
-        document.getElementById('description');
-####Todo
+    
     }
 });
 
