@@ -1,5 +1,3 @@
-/* PrismJS 1.29.0
-https://prismjs.com/download.html#themes=prism-okaidia&languages=markup+css+clike+javascript+arduino+c+cpp+css-extras+diff+gml+gdscript+java+json+json5+markup-templating+powershell+python+sql+unrealscript+yaml&plugins=line-highlight+line-numbers+show-language+highlight-keywords+remove-initial-line-feed+inline-color+autoloader+keep-markup+toolbar+copy-to-clipboard+download-button+treeview */
 var _self = "undefined" != typeof window ? window : "undefined" != typeof WorkerGlobalScope && self instanceof WorkerGlobalScope ? self : {},
     Prism = function(e) {
         var n = /(?:^|\s)lang(?:uage)?-([\w-]+)(?=\s|$)/i,

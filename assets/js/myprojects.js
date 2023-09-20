@@ -26,6 +26,7 @@ const html_scripts = ["springs.html"];
 
 let html_is_loaded = false
 
+let nodeElements = [];
 
 function loadDescription(externalHTMLUrl) {
     fetch(descriptions_path + externalHTMLUrl)
@@ -52,7 +53,7 @@ for (script_index in html_scripts) {
     loadDescription(script_name)
 }
 
-function set_footer_height(nodes) {
+function updateFooterHeight(nodes) {
     const y_scroll = (window.scrollY || window.pageYOffset);
     const get_y_max = node => node.getBoundingClientRect().bottom + y_scroll;
 
@@ -65,7 +66,7 @@ function set_footer_height(nodes) {
 }
 
 function updateGraph() {
-    let nodeElements = [];
+    nodeElements = [];
     let lineElements = [];
 
     function removeAllNodes(container) {
@@ -192,7 +193,7 @@ function updateGraph() {
     lineElements.forEach(line => linesContainer.appendChild(createLine(...line, minValue)));
 
 
-    set_footer_height(nodeElements)
+    updateFooterHeight(nodeElements)
 }
 
 document.addEventListener('mousemove', event => {
@@ -204,7 +205,10 @@ document.addEventListener('click', event => {
     if (event.target.classList.contains('node') && !event.target.classList.contains("description")) {
         currentPath = event.target.path_to_this_node;
         updateGraph();
-    
+    } else if (event.target.classList.contains("show-button")) {
+        event.preventDefault();
+        document.getElementById("code").classList.toggle('hidden');
+        updateFooterHeight(nodeElements[nodeElements.length - 1])
     }
 });
 
