@@ -107,6 +107,7 @@ var _self = "undefined" != typeof window ? window : "undefined" != typeof Worker
                 plugins: {},
                 highlightAll: function(e, n) {
                     a.highlightAllUnder(document, e, n)
+                    console.log("highligthing")
                 },
                 highlightAllUnder: function(e, n, t) {
                     var r = {
