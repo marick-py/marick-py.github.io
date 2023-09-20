@@ -208,7 +208,7 @@ document.addEventListener('click', event => {
     } else if (event.target.classList.contains("show-button")) {
         event.preventDefault();
         document.getElementById("code").classList.toggle('hidden');
-        updateFooterHeight(nodeElements[nodeElements.length - 1])
+        updateFooterHeight(nodeElements)
     }
 });
 
