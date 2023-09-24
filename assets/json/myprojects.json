@@ -2,6 +2,9 @@
   "My Projects": {
     "Physics Simulations": {
       "Springs Simulation": "springs.html"
+    },
+    "Games": {
+      "Ultra TicTacToe": "uttt.html"
     }
   }
 }
