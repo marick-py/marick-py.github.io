@@ -24,7 +24,7 @@ function updateGraph() {
     let nodeElements = [];
     let lineElements = [];
 
-    function removeAllNodes(container) {
+    function removeAllNodesOrLines(container) {
         while (container.firstChild) {
             container.removeChild(container.firstChild);
         }
@@ -137,8 +137,8 @@ function updateGraph() {
         lineElements = lineElements.concat(last_row_of_lines);
     }
 
-    removeAllNodes(nodesContainer);
-    removeAllNodes(linesContainer);
+    removeAllNodesOrLines(nodesContainer);
+    removeAllNodesOrLines(linesContainer);
 
     renderPath(currentPath);
 
