@@ -21,7 +21,7 @@ let currentPath = ['My Projects', 'Physics Simulations', 'Springs Simulation'];
 
 const descriptions_path = "assets\\example_programs\\descriptions\\"
 
-const html_scripts = ["springs.html", "uttt.html", "ttt.html];
+const html_scripts = ["springs.html", "uttt.html", "ttt.html"];
 
 
 let html_is_loaded = false
