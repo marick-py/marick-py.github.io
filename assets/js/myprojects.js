@@ -13,11 +13,12 @@ fetch('assets/json/myprojects.json')
 .then(response => response.json())
 .then(data => {
     jsonData = data;
-    main()
+    updateGraph();
 })
 .catch(error => {console.error('Error loading JSON:', error);});
 
 let currentPath = ['My Projects', 'Physics Simulations', 'Springs Simulation'];
+let lastCurrentPath = []
 
 const descriptions_path = "assets\\example_programs\\descriptions\\"
 
@@ -27,6 +28,20 @@ const html_scripts = ["springs.html", "uttt.html", "ttt.html"];
 let html_is_loaded = false
 
 let nodeElements = [];
+
+function arraysAreEqual(arr1, arr2) {
+    if (arr1.length !== arr2.length) {
+        return false;
+    }
+
+    for (let i = 0; i < arr1.length; i++) {
+        if (arr1[i] !== arr2[i]) {
+        return false;
+        }
+    }
+
+    return true;
+}
 
 function loadDescription(externalHTMLUrl) {
     fetch(descriptions_path + externalHTMLUrl)
@@ -39,7 +54,7 @@ function loadDescription(externalHTMLUrl) {
     .then(data => {
         html_scripts.splice(html_scripts.indexOf(externalHTMLUrl))
         loaded_html_sprits[externalHTMLUrl] = data
-        main()
+        updateGraph(true);
     })
     .catch(error => {
         console.error('There was a problem with the fetch operation:', error);
@@ -65,7 +80,7 @@ function updateFooterHeight(nodes) {
     separator.style.height = `${Math.max(height, 0)}px`;
 }
 
-function updateGraph() {
+function updateGraph(force_new_items=false) {
     nodeElements = [];
     let lineElements = [];
 
@@ -75,7 +90,7 @@ function updateGraph() {
         }
     }
 
-    function createNode(path_to_this_node, x, y, max_w, in_selected_path) {
+    function createNode(path_to_this_node, x, y, max_w, in_selected_path, index, num_of_nodes) {
         const node = document.createElement('div');
         if (in_selected_path) {
             node.className = 'node selected';
@@ -89,7 +104,18 @@ function updateGraph() {
         node.textContent = path_to_this_node[path_to_this_node.length-1];
         node.x = x;
         node.y = y;
+        node.index = index;
+        node.num_of_nodes = num_of_nodes;
         return node;
+    }
+
+    function updateNode(node) {
+        x_space = window.innerWidth / node.num_of_nodes;
+        x = x_space * (node.index + 1);
+
+        node.style.left = `${x}px`;
+        node.style.maxWidth = `${x_space}px`;
+        node.x = x;
     }
 
     function createLine(p1, p2, minDelta) {
@@ -132,6 +158,10 @@ function updateGraph() {
         return line;
     }
 
+    function updateLine() {
+        
+    }
+
     function renderPath(path) {
         let y = 100;
         let x_space;
@@ -148,10 +178,11 @@ function updateGraph() {
             }
             y += 50;
             if (typeof next_nodes === 'object') {
-                x_space = window.innerWidth / (Object.keys(next_nodes).length + 1);
+                let num_of_nodes = (Object.keys(next_nodes).length + 1)
+                x_space = window.innerWidth / num_of_nodes;
                 Object.entries(next_nodes).forEach(([key, value], index) => {
                     let nx = x_space * (index + 1);
-                    const node = createNode(path.slice(0,i).concat([key]), nx, y, x_space, path.includes(key));
+                    const node = createNode(path.slice(0,i).concat([key]), nx, y, x_space, path.includes(key), index, num_of_nodes);
                     nodesContainer.appendChild(node)
                     y = node.getBoundingClientRect().bottom + (window.pageYOffset || document.documentElement.scrollTop) - node.getBoundingClientRect().height;
                     if (path.includes(key)) {
@@ -169,7 +200,7 @@ function updateGraph() {
                     nodeElements.push(node);
                 });
             } else {
-                const node = createNode([""], window.innerWidth / 2, y, window.innerWidth, true);
+                const node = createNode([""], window.innerWidth / 2, y, window.innerWidth, true, -.5, 1);
                 node.className = "node description";
                 nodesContainer.appendChild(node)
                 nodeElements.push(node);
@@ -183,17 +214,31 @@ function updateGraph() {
         lineElements = lineElements.concat(last_row_of_lines);
     }
 
-    removeAllNodes(nodesContainer);
-    removeAllNodes(linesContainer);
-
-    renderPath(currentPath);
-
-    const get_deltas = ps => Math.abs(ps[0].x - ps[1].x);
-    const minValue = Math.min(...lineElements.map(get_deltas).filter(d => d !== 0));
-    lineElements.forEach(line => linesContainer.appendChild(createLine(...line, minValue)));
-
-
-    updateFooterHeight(nodeElements)
+    console.log(arraysAreEqual(currentPath, lastCurrentPath));
+    console.log(!force_new_items);
+    if (arraysAreEqual(currentPath, lastCurrentPath) && (!force_new_items)) {
+        if (nodesContainer) {
+            const children = nodesContainer.children;
+            Array.from(children).forEach((child) => {
+                updateNode(child);
+            });
+        }
+    } else {
+        removeAllNodes(nodesContainer);
+        removeAllNodes(linesContainer);
+    
+        renderPath(currentPath);
+    
+        const get_deltas = ps => Math.abs(ps[0].x - ps[1].x);
+        const minValue = Math.min(...lineElements.map(get_deltas).filter(d => d !== 0));
+        lineElements.forEach(line => linesContainer.appendChild(createLine(...line, minValue)));
+    
+    
+        updateFooterHeight(nodeElements)
+    
+        lastCurrentPath = currentPath;
+        Prism.highlightAll();
+    }
 }
 
 document.addEventListener('mousemove', event => {
@@ -215,7 +260,3 @@ document.addEventListener('click', event => {
 window.addEventListener('resize', () => {
     updateGraph();
 });
-
-function main() {
-    updateGraph();
-}
