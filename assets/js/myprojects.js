@@ -69,6 +69,7 @@ for (script_index in html_scripts) {
 }
 
 function updateFooterHeight(nodes) {
+    console.log("setting height")
     const y_scroll = (window.scrollY || window.pageYOffset);
     const get_y_max = node => node.getBoundingClientRect().bottom + y_scroll;
 
@@ -158,10 +159,6 @@ function updateGraph(force_new_items=false) {
         return line;
     }
 
-    function updateLine() {
-        
-    }
-
     function renderPath(path) {
         let y = 100;
         let x_space;
@@ -214,28 +211,33 @@ function updateGraph(force_new_items=false) {
         lineElements = lineElements.concat(last_row_of_lines);
     }
 
-    console.log(arraysAreEqual(currentPath, lastCurrentPath));
-    console.log(!force_new_items);
-    if (arraysAreEqual(currentPath, lastCurrentPath) && (!force_new_items)) {
+    if (false && arraysAreEqual(currentPath, lastCurrentPath) && (!force_new_items)) {
         if (nodesContainer) {
-            const children = nodesContainer.children;
-            Array.from(children).forEach((child) => {
+            Array.from(nodesContainer.children).forEach((child) => {
                 updateNode(child);
             });
         }
-    } else {
-        removeAllNodes(nodesContainer);
+
         removeAllNodes(linesContainer);
-    
         renderPath(currentPath);
-    
         const get_deltas = ps => Math.abs(ps[0].x - ps[1].x);
         const minValue = Math.min(...lineElements.map(get_deltas).filter(d => d !== 0));
         lineElements.forEach(line => linesContainer.appendChild(createLine(...line, minValue)));
-    
-    
         updateFooterHeight(nodeElements)
-    
+
+    } else {
+        removeAllNodes(nodesContainer);
+        removeAllNodes(linesContainer);
+        
+        renderPath(currentPath);
+        
+        const get_deltas = ps => Math.abs(ps[0].x - ps[1].x);
+        const minValue = Math.min(...lineElements.map(get_deltas).filter(d => d !== 0));
+        lineElements.forEach(line => linesContainer.appendChild(createLine(...line, minValue)));
+        
+        
+        updateFooterHeight(nodeElements)
+        
         lastCurrentPath = currentPath;
         Prism.highlightAll();
     }

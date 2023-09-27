@@ -9,7 +9,7 @@
     background-color: var(--bg-opaque-color);
 	padding: 0px;
 	transition: left 0.3s ease-in-out;
-    z-index: 4;
+    z-index: 15;
 }
 
 #menu.open {

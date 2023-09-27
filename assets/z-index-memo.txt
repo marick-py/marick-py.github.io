@@ -3,12 +3,17 @@ main.css
 
 
 header.css
-    .header     => 2
+    .header     => 10
 
 menu.css
-    #menu       => 4
+    #menu       => 15
 
 aboutme.css
+    .overlay    => 3
+    .node       => 1
+    .node:hover => 2
+
+myprojects.css
     .overlay    => 3
     .node       => 1
     .node:hover => 2
