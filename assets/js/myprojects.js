@@ -54,7 +54,8 @@ function loadDescription(externalHTMLUrl) {
     .then(data => {
         html_scripts.splice(html_scripts.indexOf(externalHTMLUrl))
         loaded_html_sprits[externalHTMLUrl] = data
-        updateGraph(true);
+        updateGraph();
+        
     })
     .catch(error => {
         console.error('There was a problem with the fetch operation:', error);
@@ -236,11 +237,12 @@ function updateGraph(force_new_items=false) {
         lineElements.forEach(line => linesContainer.appendChild(createLine(...line, minValue)));
         
         
-        updateFooterHeight(nodeElements)
         
         lastCurrentPath = currentPath;
         Prism.highlightAll();
     }
+    updateFooterHeight(nodeElements);
+    console.log("updated footer height")
 }
 
 document.addEventListener('mousemove', event => {
