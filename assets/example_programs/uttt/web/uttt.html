@@ -1,11 +1,11 @@
-<html lang="en-us"><script src="https://pygame-web.github.io/archives/0.7/pythons.js" type=module id="site" data-os="vtx,fs,snd,gui" async defer>#<!--
+<html lang="en-us"><script src="https://pygame-web.github.io/archives/0.8/pythons.js" type=module id="site" data-os="vtx,fs,snd,gui" async defer>#<!--
 
 print("""
 Loading uttt from uttt.apk
-    Pygbag Version : 0.7.2
-    Template Version : 0.7.3
+    Pygbag Version : 0.8.2
+    Template Version : 0.8.0
     Python  : 3.11
-    CDN URL : https://pygame-web.github.io/archives/0.7/
+    CDN URL : https://pygame-web.github.io/archives/0.8/
     Screen  : {{cookiecutter.width}}x{{cookiecutter.height}}
     Title   : uttt
     Folder  : uttt
@@ -62,7 +62,7 @@ async def custom_site():
     import embed
 
 
-    platform.document.body.style.background = "#7f7f7f"
+    platform.document.body.style.background = "rgb(20, 22, 30)"
 
     import pygame
 
@@ -112,14 +112,16 @@ async def custom_site():
     marginy = uy(.045) # 45%
 
 
-    def pg_bar(pos):
+    def pg_bar(pos, return_size=False):
         nonlocal marginx, marginy
         # resolution of progress bar, recalculate since it may not be know yet.
         total = track.len or 10  # avoid div0
         slot = ux(.060)/ total # 60%
-
-        pygame.draw.rect(screen,(10,10,10),( marginx-ux(10), marginy-uy(10), (total*slot)+ux(20), uy(110) ) )
-        pygame.draw.rect(screen,(0,255,0), ( marginx, marginy, track.pos*slot, uy(90)) )
+        rect = ( marginx, marginy, track.pos*slot, uy(90))
+        border_rect = tuple(rect[r]+b for r,b in enumerate((-ux(10), -uy(10), ux(20), uy(20))))
+        pygame.draw.rect(screen, (255, 251, 0), border_rect, border_radius=10)
+        pygame.draw.rect(screen, (199, 96, 0), rect, border_radius=10)
+        return rect[2:] if return_size else None
 
     # wait until zip mount + overlayfs is complete
     while not track.ready:
@@ -160,8 +162,8 @@ async def custom_site():
             prompt = fnt.render(f"{error}", True, "black")
         else:
             prompt = fnt.render(f"Setting [{pkg}] up", True, "black")
-        pg_bar(track.len)
-        screen.blit(prompt, ( marginx+ ux(80), marginy - uy(10) ) )
+        rect = pg_bar(track.len)
+        screen.blit(prompt, ( marginx + (rect[0] - prompt.get_rect()[2]) * .5, marginy + (rect[1] - prompt.get_rect()[3]) * .5) )
         compose()
 
     # test/wait if user media interaction required
@@ -169,9 +171,9 @@ async def custom_site():
 
         # now make a prompt
         fnt = pygame.sysfont.SysFont("freesans",  uy(80) )
-        prompt = fnt.render("Ready to start !", True, "blue")
-        pg_bar(track.len)
-        screen.blit(prompt, ( marginx+ ux(80), marginy - uy(10) ) )
+        prompt = fnt.render("~ Click Anywhere to Start ~", True, (255, 251, 0))
+        rect = pg_bar(track.len, True)
+        screen.blit(prompt, ( marginx + (rect[0] - prompt.get_rect()[2]) * .5, marginy + (rect[1] - prompt.get_rect()[3]) * .5) )
         compose()
         print("""
         * Waiting for media user engagement : please click/touch page *
@@ -241,7 +243,7 @@ config = {
     can_close : 0,
     archive : "uttt",
     gui_debug : 3,
-    cdn : "https://pygame-web.github.io/archives/0.7/",
+    cdn : "https://pygame-web.github.io/archives/0.8/",
     autorun : 0,
     PYBUILD : "3.11"
 }
@@ -256,10 +258,10 @@ config = {
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes"/>
 
-    <link rel="prefetch" href="https://pygame-web.github.io/archives/0.7/pythonrc.py">
-    <link rel="prefetch" href="https://pygame-web.github.io/archives/0.7/vt/xterm.js">
-    <link rel="prefetch" href="https://pygame-web.github.io/archives/0.7/vt/xterm-addon-image.js">
-    <link rel="prefetch" href="https://pygame-web.github.io/archives/0.7/vt/xterm-addon-image.js">
+    <link rel="prefetch" href="https://pygame-web.github.io/archives/0.8/pythonrc.py">
+    <link rel="prefetch" href="https://pygame-web.github.io/archives/0.8/vt/xterm.js">
+    <link rel="prefetch" href="https://pygame-web.github.io/archives/0.8/vt/xterm-addon-image.js">
+    <link rel="prefetch" href="https://pygame-web.github.io/archives/0.8/vt/xterm-addon-image.js">
 
 
     <link rel="icon" type="image/png" href="favicon.png" sizes="16x16">
@@ -275,7 +277,7 @@ config = {
         }
 
         #progress {
-            height: 20px;
+            height: 50px;
             width: 300px;
         }
 
@@ -289,7 +291,7 @@ config = {
             border: 0px none;
             background-color: transparent;
             width: 100%;
-            height=100%;
+            height: 100%;
             z-index: 5;
 
             padding: 0;
@@ -306,7 +308,7 @@ config = {
             font-family: arial;
             margin: 0;
             padding: none;
-            background-color:powderblue;
+            background-color:rgb(20, 22, 30);
         }
 
         .topright{
@@ -341,7 +343,7 @@ config = {
         }
     </style>
 
-    <script src="https://pygame-web.github.io/archives/0.7//browserfs.min.js"></script>
+    <script src="https://pygame-web.github.io/archives/0.8//browserfs.min.js"></script>
 
 </head>
 
@@ -368,7 +370,7 @@ height="1px"
 
         <div id="system" hidden>
             <div class="button-container">
-                <button id="aiostop" disabled>AIO ⏏︎</button>
+                <button id="aiostop" disabled>AIO �︎</button>
                 <button id="aiopaused_true" disabled>AIO ■</button>
                 <button id="aiopaused_false" disabled>AIO ▶</button>
                 <button id="pygame_mixer_music_pause" disabled>Music ■</button>
@@ -401,7 +403,7 @@ frameborder="1"
                 mozallowfullscreen="true"
                 sandbox="allow-same-origin allow-top-navigation allow-scripts allow-pointer-lock"
                 allow="autoplay; fullscreen *; geolocation; microphone; camera; midi; monetization; xr-spatial-tracking; gamepad; gyroscope; accelerometer; xr; cross-origin-isolated"
-                src="https://pygame-web.github.io/archives/0.7/empty.html"
+                src="https://pygame-web.github.io/archives/0.8/empty.html"
                 scrolling="yes">
             </iframe>
         </div>
