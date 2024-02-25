@@ -6,7 +6,7 @@
 		<title>Puffetta</title>
         <link rel="stylesheet" href="assets/css/puffetta.css"/>
 	</head>
-	<body>
+	<body id="main-body">
 
         <!-- title -->
         <div id="banner" onclick="expandDescription()" >
@@ -23,14 +23,90 @@
             <p>D'altra parte, Congo è un possente felino nero, noto per il suo portamento regale e la sua affettuosità. Tuttavia, confrontato con Benny Stich Puffetta, si pone in una posizione di svantaggio in molteplici aspetti. La sua corporatura cicciosa e la tendenza al riposo lo rendono meno adatto alle imprese dinamiche e all'esplorazione.</p>
             <p> ~ unirick ~</p>
         </div>
-        
 
-        <!-- <h1>Benny di oggi</h1> -->
-        <h1 id="pluribenny-title"></h1>
+        <h1 class="benny-title" id="benny-type-title">~ benny di oggi ~</h1>
+        <div style="width: 100vw;background: linear-gradient(transparent, #2972b6, transparent);"><h1 class="benny-title" id="current-benny"></h1></div>
+        <h1 class="benny-title" id="pluribenny-title"></h1>
+        <h1 class="benny-title">SFUMATURE DI BENNY</h1>
+
         <div id="cascade-list-container">
         </div>
         <p style="color:darkblue;font-size:15px;">ultimo aggiornamento 24 febbraio 2024</p>
         
         <script src="assets/js/puffetta.js"></script>
+        <script type="module">
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+            import { getDatabase, ref, child, get, set, update, remove} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+            const firebaseConfig = {
+              apiKey: "AIzaSyDbEcnmPx877CrfDfwYLYccZeJqRpfG0hU",
+              authDomain: "bennystichpuffetta.firebaseapp.com",
+              databaseURL: "https://bennystichpuffetta-default-rtdb.europe-west1.firebasedatabase.app",
+              projectId: "bennystichpuffetta",
+              storageBucket: "bennystichpuffetta.appspot.com",
+              messagingSenderId: "481452878190",
+              appId: "1:481452878190:web:6bbac57e2c4b7d634bb97f",
+              measurementId: "G-1VTVCTN67T"
+            };
+            const app = initializeApp(firebaseConfig);
+            const db = getDatabase(app);
+
+
+            // application start
+            const cascadeListContainer = document.getElementById('cascade-list-container');
+            const pluribennyTitle = document.getElementById("pluribenny-title");
+            const bodyElement = document.getElementById("main-body");
+            const currentBennyElement = document.getElementById("current-benny");
+
+            let current_benny;
+            
+            function WriteData(event) {
+                current_benny.classList.toggle("selected");
+                current_benny = event;
+                currentBennyElement.textContent = event.textContent;
+                current_benny.classList.toggle("selected");
+
+                set(ref(db, "/current_benny"), current_benny.textContent)
+                .catch(error => console.error('Error updating JSON:', error));
+            }
+
+            function Reload() {
+                ReadData(true);
+            }
+
+            function ReadData(empty_childs=false) {
+                const dbRef = ref(db);
+                get(child(dbRef, "/"))
+                .then((snapshot)=>{
+                    if (snapshot.exists()) {
+                        if (empty_childs) {
+                            while (cascadeListContainer.firstChild) {
+                                cascadeListContainer.removeChild(cascadeListContainer.firstChild);
+                            }
+                        }
+                        UpdateData(snapshot.val());
+                    }
+                })
+                .catch(error => console.error('Error loading JSON:', error));
+            }
+    
+            function UpdateData(data) {
+                data.benny_types.forEach((text) => {
+                    const listItem = document.createElement('p');
+                    listItem.classList.add("benny-type");
+                    listItem.addEventListener('click', function(event) {WriteData(event.target);});
+                    listItem.textContent = text;
+                    cascadeListContainer.appendChild(listItem);
+                    if (text == data.current_benny) {
+                        current_benny = listItem; 
+                        currentBennyElement.textContent = current_benny.textContent;
+                        current_benny.classList.add("selected");
+                    }
+                });
+                pluribennyTitle.textContent = data.benny_types.length;
+            }
+
+            ReadData();
+            pluribennyTitle.addEventListener('click', function(event) {Reload();});
+          </script>
 	</body>
 </html>

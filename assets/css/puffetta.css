@@ -52,7 +52,7 @@ body {
 /* description */
 #description {
     overflow: hidden;
-    background: linear-gradient(rgba(0,0,0,0), #002790);
+    background: linear-gradient(rgba(0,0,0,0), #001d4f);
     /* border: 2px solid black; */
     border-radius: 0px 0px 20px 20px;
     max-height: 0px;
@@ -87,16 +87,40 @@ body {
     padding: 5px;
     background-color: #2972b6a0;
     color: lightgray;
+    transition: all .5s ease-in-out;
 }
-#pluribenny-title {
+.benny-type.selected {
+    font-size: 32px;
+    background-color: #945cb4;
+    color: greenyellow;
+    border: 2px solid greenyellow;
+}
+.benny-title {
     position: relative;
-    z-index: 1;
-    text-align: center;
-    padding: 20px;
-    color: 	#2972b6;
-    -webkit-text-stroke: .15rem lightgray;
-	text-stroke: .15rem lightgray;
-    font-size: 3.4rem;
-    font-weight: lighter;
     font-family: Caprasimo;
+    color: lightgray;
+    -webkit-text-stroke: .1rem black;
+	text-stroke: .1rem black;
+    font-size: 1.25rem;
+    /* background-color: red; */
+}
+
+#pluribenny-title {
+    font-size: 3rem;
+    font-weight: lighter;
+    bottom: -25px;
+}
+
+#benny-type-title {
+    top: 25px;
+    font-size: 1.5rem;
+    font-weight: lighter;
+}
+#current-benny {
+    width: 90%;
+    left: 5%;
+    
+    color: #4ebcff;
+    font-size: 3rem;
+    font-weight: lighter;
 }
