@@ -1,0 +1,102 @@
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Caprasimo:wght@400;700&display=swap");
+
+/*
+#4ebcff	(78,188,255)
+#2972b6	(41,114,182)
+#002790	(0,39,144)
+#945cb4	(148,92,180)
+#001d4f	(0,29,79)
+*/
+
+body {
+    font-family: 'Times New Roman', Times, serif;
+    text-align: center;
+    min-height: 100vh;
+    background: radial-gradient(ellipse at top , #945cb4, #2972b6),
+                radial-gradient(ellipse at bottom, #002790, #2972b6);
+}
+
+/* banner */
+#banner {
+    position: relative;
+    /* top: -10px; */
+}
+#banner-img {
+    width: 100%;
+    border-radius: 0 0 25% 25%;
+    filter: brightness(0.75) blur(2px);
+    transition: all .5s ease-in-out;
+}
+#banner-img.expand {
+    width: 100%;
+    border-radius: 0 0 10% 10%;
+    filter: brightness(0.75) blur(2px);
+}
+#doc-title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    text-align: center;
+    color: lightgray;
+    font-size: 2rem;
+    -webkit-text-stroke: .35rem #001d4f;
+	text-stroke: .35rem #001d4f;
+    font-weight: lighter;
+    font-family: Caprasimo;
+}
+
+/* description */
+#description {
+    overflow: hidden;
+    background: linear-gradient(rgba(0,0,0,0), #002790);
+    /* border: 2px solid black; */
+    border-radius: 0px 0px 20px 20px;
+    max-height: 0px;
+    width: 50%;
+    position: relative;
+    left: 25%;
+    padding-bottom: 0%;
+    transition: all .5s ease-in-out;
+}
+#description.expand {
+    padding-bottom: 5%;
+    width: 80%;
+    left: 10%;
+}
+#description p {
+    color:lightgray;
+    font-size:15px;
+    text-align: center;
+    padding: 0px 5% 0px 5%;
+    font-family: Quicksand;
+    font-weight: 550;
+}
+
+/* benny content */
+.benny-type {
+    font-family: Quicksand;
+    font-weight: 550;
+    font-size: 18px;
+    border: 2px solid black;
+    border-radius: 5px;
+    margin: 5px 10px 0px 10px;
+    padding: 5px;
+    background-color: #2972b6a0;
+    color: lightgray;
+}
+#pluribenny-title {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 20px;
+    color: 	#2972b6;
+    -webkit-text-stroke: .15rem lightgray;
+	text-stroke: .15rem lightgray;
+    font-size: 3.4rem;
+    font-weight: lighter;
+    font-family: Caprasimo;
+}
