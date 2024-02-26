@@ -53,7 +53,6 @@ body {
 #description {
     overflow: hidden;
     background: linear-gradient(rgba(0,0,0,0), #001d4f);
-    /* border: 2px solid black; */
     border-radius: 0px 0px 20px 20px;
     max-height: 0px;
     width: 50%;
@@ -94,6 +93,16 @@ body {
     background-color: #945cb4;
     color: greenyellow;
     border: 2px solid greenyellow;
+    transition: all .5s ease-in-out;
+}
+.benny-type.hidden {
+    height: 0px;
+    font-size: 0px;
+    margin: 0;
+    padding: 0;
+    border: none;
+    overflow: hidden;
+    transition: all .5s ease-in-out;
 }
 .benny-title {
     position: relative;
@@ -123,4 +132,13 @@ body {
     color: #4ebcff;
     font-size: 3rem;
     font-weight: lighter;
+}
+
+#benny-type-input {
+    background-color: lightgray;
+    text-align: center;
+    font-family: Quicksand;
+    font-size: 16px;
+    border: none;
+    border-radius: 1vh;
 }
